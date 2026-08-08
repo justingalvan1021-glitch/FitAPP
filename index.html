@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FitForge V6.3</title><link rel="stylesheet" href="css/styles.css?v=6.3.1">
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><span>FF</span><div>FitForge<small data-t="dailyFitness">Daily fitness</small></div></div>
+  <nav>
+    <button class="nav active" data-view="dashboard" data-i18n="navToday">Today</button>
+    <button class="nav" data-view="mealplan" data-i18n="navMealPlan">Meal Plan</button>
+    <button class="nav" data-view="recipes" data-i18n="navRecipes">Recipes</button>
+    <button class="nav" data-view="workouts" data-i18n="navWorkouts">Workouts</button>
+    <button class="nav" data-view="progress" data-i18n="navProgress">Progress</button>
+    <button class="nav" data-view="goals" data-i18n="navGoals">Goals</button>
+    <button class="nav" data-view="settings" data-i18n="navSettings">Settings</button>
+  </nav>
+  <div class="version">V6.3 · <span data-t="consumerPreview">Consumer Preview</span></div>
+</aside>
+
+<main>
+<section id="dashboard" class="view active">
+  <header><div><p class="eyebrow" data-t="todayCaps">TODAY</p><h1 id="helloTitle"><span data-i18n="yourDay">Your day</span></h1><p id="dateText" class="muted"></p></div><button class="reset-day" onclick="resetDay()"><span>↻</span><b data-t="resetDay">Reset day</b></button></header>
+  <div class="today-hero">
+    <div class="cal-ring" id="calRing"><div><strong id="calRemain">0</strong><span data-t="kcalLeft">kcal left</span></div></div>
+    <div class="hero-copy"><h2 id="calConsumed">0 kcal consumed</h2><p class="muted" data-t="keepSimple">Keep the log simple. FitForge handles the totals.</p><div class="hero-actions"><button class="primary" onclick="openFoodModal()"><span data-i18n="logFood">+ Log Food</span></button><button class="secondary" onclick="openScanModal()"><span data-i18n="scanMeal">Scan Meal</span></button></div></div>
+  </div>
+  <div class="macro-strip" id="macroStrip"></div>
+  <div class="dashboard-grid">
+    <article class="card water-card">
+      <div class="card-head"><div><p class="eyebrow"><span data-i18n="hydration">HYDRATION</span></p><h2 data-i18n="dailyWaterGoal">Daily water goal</h2></div><button class="water-goal-edit" onclick="openWaterModal()" data-t="editGoal">Edit goal</button></div>
+      <div class="water-overview"><div class="water-ring" id="waterRing"><div><strong id="waterPercent">0%</strong><span data-t="completed">completed</span></div></div><div class="water-stats"><span data-t="consumedToday">Consumed today</span><strong><b id="waterOz">0</b> <small>oz</small></strong><p><b id="waterRemaining">80</b> oz <span data-t="remaining">remaining</span></p><small><span data-t="goalLabel">Goal</span>: <b id="waterGoal">80</b> oz</small></div></div>
+      <div class="water-progress"><span id="waterBar"></span></div>
+      <div class="water-actions"><button onclick="addWater(8)">+ 8 oz</button><button onclick="addWater(16)">+ 16 oz</button><button onclick="openWaterModal()" data-t="otherAmount">Other amount</button></div>
+    </article>
+    <article class="card">
+      <div class="card-head"><div><p class="eyebrow" data-t="mealsCaps">MEALS</p><h2 data-i18n="todayLog">Today's log</h2></div><button class="text-btn" onclick="openFoodModal()" data-t="add">+ Add</button></div>
+      <div id="todayMeals"></div>
+    </article>
+  </div>
+  <div class="insight-grid" id="dashboardInsights"></div>
+</section>
+
+<section id="mealplan" class="view">
+<header><div><p class="eyebrow" data-t="weeklyPrep">WEEKLY PREP</p><h1 data-t="mealPlanTitle">Meal Plan</h1><p class="muted" data-t="mealPlanSub">Build the week around recipes you already know you'll eat.</p></div><div class="header-actions"><button class="secondary" id="generateMealPlan" data-t="generateWeek">Generate Week</button><button class="primary" id="openPlanModal" data-t="planMeal">+ Plan Meal</button></div></header>
+<div class="week-summary" id="weekSummary"></div><div id="weekPlan" class="week-grid"></div>
+<section class="shopping-panel card"><div class="card-head"><div><p class="eyebrow" data-t="shoppingCaps">SHOPPING</p><h2 data-t="shoppingList">Shopping list</h2></div><button class="secondary" id="clearShopping" data-t="clearChecks">Clear checks</button></div><div id="shoppingList" class="shopping-list"></div></section>
+</section>
+
+<section id="recipes" class="view">
+<header><div><p class="eyebrow" data-t="eatWell">EAT WELL</p><h1 data-t="recipesTitle">Recipes</h1><p class="muted" data-t="recipesSub">Browse complete recipes or save the meals you make your own way.</p><div class="catalog-summary" id="recipeSummary"></div></div><button class="primary" id="openMyMeal" data-t="saveMyMeal">+ Save My Meal</button></header>
+<div class="catalog-toolbar"><div class="segmented" id="recipeSegments"><button class="active" data-cat="all">All</button><button data-cat="Breakfast">Breakfast</button><button data-cat="Lunch">Lunch</button><button data-cat="Dinner">Dinner</button><button data-cat="Shake">Shakes</button><button data-cat="mine">My Meals</button><button data-cat="favorites" data-t="favorites">Favorites</button></div><div class="filter-row"><select id="recipeTimeFilter"><option value="all" data-t="anyTime">Any time</option><option value="15">15 min</option><option value="30">30 min</option></select><select id="recipeProteinFilter"><option value="0" data-t="anyProtein">Any protein</option><option value="30">30g+</option><option value="40">40g+</option></select><input id="recipeSearch" data-placeholder="searchRecipes" placeholder="Search recipes"></div></div>
+<div id="recipeCatalog" class="recipe-catalog"></div>
+</section>
+
+<section id="workouts" class="view">
+<header><div><p class="eyebrow" data-t="training">TRAINING</p><h1 data-t="exerciseLibrary">Exercise Library</h1><p class="muted" data-t="exerciseSub">Find movements by muscle group and see a simple starting recommendation.</p><div class="catalog-summary" id="exerciseSummary"></div></div></header>
+<div class="workout-toolbar"><select id="muscleFilter"><option value="all">All muscles</option><option>Chest</option><option>Back</option><option>Legs</option><option>Shoulders</option><option>Arms</option><option>Core</option></select><input id="exerciseSearch" placeholder="Search exercises"></div>
+<div id="exerciseGrid" class="exercise-grid"></div>
+</section>
+
+<section id="coach" class="view">
+<header><div><p class="eyebrow" data-t="personalCoachCaps">PERSONAL COACH</p><h1 data-t="coachTitle">Your program</h1><p class="muted" data-t="coachSub">Build a routine, log each set and keep your next session clear.</p></div><button class="primary" id="generateRoutine" data-t="generateRoutine">Generate Routine</button></header>
+<div class="coach-layout">
+<article class="card profile-card"><div class="card-head"><div><p class="eyebrow" data-t="profileCaps">PROFILE</p><h2 data-t="aboutYou">About you</h2></div></div><form id="profileForm" class="form-grid one"><label><span data-t="name">Name</span><input name="name" data-placeholder="namePlaceholder" placeholder="Your name"></label><label><span data-t="experience">Experience</span><select name="level"><option value="Beginner" data-t="Beginner">Beginner</option><option value="Intermediate" data-t="Intermediate">Intermediate</option></select></label><label><span data-t="diet">Diet</span><select name="diet"><option value="none" data-t="noRestriction">No restriction</option><option value="vegetarian" data-t="vegetarian">Vegetarian</option><option value="glutenFree" data-t="glutenFree">Gluten free</option></select></label><label><span data-t="equipment">Equipment</span><select name="equipment"><option value="gym" data-t="fullGym">Full gym</option><option value="home" data-t="homeEquipment">Home equipment</option><option value="bodyweight" data-t="bodyweight">Bodyweight</option></select></label><label><span data-t="targetDate">Target date</span><input name="targetDate" type="date"></label><button class="primary" data-t="saveProfile">Save Profile</button></form></article>
+<article class="card routine-card"><div class="card-head"><div><p class="eyebrow" data-t="routineCaps">ROUTINE</p><h2 data-t="weeklyRoutine">Weekly routine</h2></div><button class="secondary" id="startWorkout" data-t="startWorkout">Start Workout</button></div><div id="routineList"></div></article>
+</div>
+<div class="coach-lower"><article class="card"><p class="eyebrow" data-t="workoutLogCaps">WORKOUT LOG</p><h2 data-t="recentWorkouts">Recent workouts</h2><div id="workoutHistory"></div></article><article class="card"><p class="eyebrow" data-t="achievementsCaps">ACHIEVEMENTS</p><h2 data-t="yourAchievements">Your achievements</h2><div id="achievementGrid" class="achievement-grid"></div></article></div>
+</section>
+
+<section id="progress" class="view">
+<header><div><p class="eyebrow" data-t="yourTrend">YOUR TREND</p><h1 data-t="progressTitle">Progress</h1><p class="muted" data-t="progressSub">Focus on the direction, not one day's number.</p></div><button class="primary" id="openMeasurement" data-t="measurement">+ Measurement</button></header>
+<div id="progressStats" class="progress-stats"></div>
+<div class="progress-layout"><article class="card chart-card"><div class="card-head"><div><p class="eyebrow" data-t="weightCaps">WEIGHT</p><h2 data-t="weightTrend">Weight trend</h2></div><select id="chartRange"><option value="all" data-t="allTime">All time</option><option value="30" data-t="days30">30 days</option></select></div><canvas id="weightChart"></canvas></article><article class="card"><p class="eyebrow" data-t="historyCaps">HISTORY</p><h2 data-t="recentMeasurements">Recent measurements</h2><div id="measurementHistory"></div></article></div>
+</section>
+
+<section id="goals" class="view">
+<header><div><p class="eyebrow" data-t="personalTargets">PERSONAL TARGETS</p><h1 data-t="goalsTitle">Goals</h1><p class="muted" data-t="goalsSub">Enter your basics and FitForge will estimate a starting calorie and macro target.</p></div></header>
+<div class="goals-layout">
+<article class="card">
+<form id="goalCalculator" class="form-grid">
+<label><span data-t="sexEstimate">Sex used for estimate</span><select name="sex"><option value="male" data-t="male">Male</option><option value="female" data-t="female">Female</option></select></label>
+<label><span data-t="age">Age</span><input type="number" name="age" min="18" max="100" value="30" required></label>
+<label><span id="goalWeightLabel">Weight (lb)</span><input type="number" name="weight" min="70" step=".1" value="180" required></label>
+<label><span data-t="height">Height</span><input type="number" name="heightFt" min="4" max="7" value="5" required><span class="inline-unit">ft</span></label>
+<label><span data-t="height">Height</span><input type="number" name="heightIn" min="0" max="11" value="10" required><span class="inline-unit">in</span></label>
+<label><span data-t="activity">Activity</span><select name="activity"><option value="1.2" data-t="sedentary">Sedentary</option><option value="1.375" data-t="lightActivity">Light · 1–3 days/week</option><option value="1.55" selected data-t="moderateActivity">Moderate · 3–5 days/week</option><option value="1.725" data-t="veryActive">Very active · 6–7 days/week</option></select></label>
+<label><span data-t="goal">Goal</span><select name="goal"><option value="lose" data-t="loseWeight">Lose weight</option><option value="maintain" data-t="maintainWeight">Maintain weight</option><option value="gain" data-t="gainWeight">Gain weight</option></select></label>
+<label><span id="goalTargetWeightLabel">Goal weight (lb)</span><input type="number" name="goalWeight" min="70" step=".1" value="170"></label>
+<label><span data-t="dailyWater">Daily water goal (oz)</span><input type="number" name="waterGoal" min="1" value="80"></label>
+<button class="primary span-2" type="submit" data-t="calculateTargets">Calculate My Targets</button>
+</form>
+<p class="fineprint" data-t="disclaimer">This is a general planning estimate, not a medical recommendation. Energy needs vary; adjust based on your real trend and professional guidance when appropriate.</p>
+</article>
+<article class="recommendation card" id="goalRecommendation"><div class="empty" data-t="calculatePrompt">Calculate your targets to see the recommendation.</div></article>
+</div>
+</section>
+
+<section id="settings" class="view">
+<header><div><p class="eyebrow" data-i18n="preferences">PREFERENCES</p><h1 data-i18n="settingsTitle">Settings</h1><p class="muted" data-i18n="settingsSub">Make FitForge feel like your app.</p></div></header>
+<div class="settings-layout">
+  <article class="card settings-card">
+    <div class="setting-row">
+      <div><h3 data-i18n="language">Language</h3><p class="muted" data-i18n="languageSub">Choose the language used across the app.</p></div>
+      <div class="choice-group" id="languageChoice">
+        <button data-value="en" class="choice active">English</button>
+        <button data-value="es" class="choice">Español</button>
+      </div>
+    </div>
+    <div class="setting-row">
+      <div><h3 data-i18n="units">Units</h3><p class="muted" data-i18n="unitsSub">Weight and body goals will follow this unit.</p></div>
+      <div class="choice-group" id="unitChoice">
+        <button data-value="lb" class="choice active">lb</button>
+        <button data-value="kg" class="choice">kg</button>
+      </div>
+    </div>
+    <div class="setting-row">
+      <div><h3 data-i18n="appearance">Appearance</h3><p class="muted" data-i18n="appearanceSub">Switch between light and dark mode.</p></div>
+      <div class="choice-group" id="themeChoice">
+        <button data-value="light" class="choice active" data-i18n="light">Light</button>
+        <button data-value="dark" class="choice" data-i18n="dark">Dark</button>
+      </div>
+    </div>
+  </article>
+
+  <article class="card settings-preview">
+    <p class="eyebrow" data-i18n="preview">PREVIEW</p>
+    <h2 data-i18n="previewTitle">Your preferences</h2>
+    <div class="preview-list">
+      <div><span data-i18n="language">Language</span><strong id="previewLanguage">English</strong></div>
+      <div><span data-i18n="units">Units</span><strong id="previewUnits">lb</strong></div>
+      <div><span data-i18n="appearance">Appearance</span><strong id="previewTheme">Light</strong></div>
+    </div>
+  </article>
+</div>
+</section>
+
+</main>
+</div>
+
+<!-- Food Modal -->
+<div class="modal-bg" id="foodModal"><div class="modal">
+<div class="modal-head"><div><p class="eyebrow" data-t="todayCaps">TODAY</p><h2 data-t="logFoodTitle">Log Food</h2></div><button class="close" data-close="foodModal">×</button></div>
+<div class="segmented small-seg"><button class="active" data-logtab="recipe" data-t="savedRecipe">Saved Recipe</button><button data-logtab="food" data-t="individualFood">Individual Food</button></div>
+<div id="logRecipePane" class="pane active"><form id="recipeLogForm" class="form-grid"><label><span data-t="meal">Meal</span><select name="meal"><option value="Breakfast" data-t="Breakfast">Breakfast</option><option value="Lunch" data-t="Lunch">Lunch</option><option value="Dinner" data-t="Dinner">Dinner</option><option value="Snack" data-t="Snack">Snack</option></select></label><label><span data-t="recipeSavedMeal">Recipe / saved meal</span><select name="recipeId" id="recipeLogSelect"></select></label><label><span data-t="servings">Servings</span><input name="servings" type="number" value="1" min=".25" step=".25"></label><div id="recipePreview" class="preview span-2"></div><button class="primary span-2" data-t="addToToday">Add to Today</button></form></div>
+<div id="logFoodPane" class="pane"><form id="foodLogForm" class="form-grid"><label><span data-t="meal">Meal</span><select name="meal"><option value="Breakfast" data-t="Breakfast">Breakfast</option><option value="Lunch" data-t="Lunch">Lunch</option><option value="Dinner" data-t="Dinner">Dinner</option><option value="Snack" data-t="Snack">Snack</option></select></label><label><span data-t="food">Food</span><input name="name" data-placeholder="foodPlaceholder" placeholder="Banana" required></label><label><span data-t="calories">Calories</span><input name="calories" type="number" min="0" required></label><label><span data-t="proteinGrams">Protein (g)</span><input name="protein" type="number" min="0" step=".1" required></label><label><span data-t="carbsGrams">Carbs (g)</span><input name="carbs" type="number" min="0" step=".1" required></label><label><span data-t="fatGrams">Fat (g)</span><input name="fat" type="number" min="0" step=".1" required></label><button class="primary span-2" data-t="addToToday">Add to Today</button></form></div>
+</div></div>
+
+<div class="modal-bg" id="waterModal"><div class="modal compact"><div class="modal-head"><div><p class="eyebrow" data-t="hydration">HYDRATION</p><h2 data-t="waterSettings">Water and daily goal</h2></div><button class="close" data-close="waterModal">×</button></div><form id="waterForm" class="water-form"><label><span data-t="amountOz">Amount to add (oz)</span><input name="amount" type="number" min="0" value="12" required></label><label><span data-t="dailyGoalOz">Daily goal (oz)</span><input name="goal" type="number" min="1" value="80" required></label><p class="fineprint" data-t="waterGoalHint">You can change your goal without adding water by entering 0 above.</p><button class="primary wide" data-t="saveWater">Save hydration</button></form></div></div>
+
+<div class="modal-bg" id="scanModal"><div class="modal compact"><div class="modal-head"><div><p class="eyebrow" data-t="aiFoodScan">AI FOOD SCAN</p><h2><span data-i18n="scanMeal">Scan Meal</span></h2></div><button class="close" data-close="scanModal">×</button></div><input id="mealPhoto" type="file" accept="image/*" capture="environment"><div id="scanPreview" class="scan-preview" data-t="takePhoto">Take or choose a photo</div><button class="primary wide" id="analyzeMeal" data-t="analyzeMeal">Analyze Meal</button><p id="scanStatus" class="muted center"></p></div></div>
+
+<div class="modal-bg" id="recipeDetailModal"><div class="modal recipe-detail-modal"><div class="modal-head"><div><p class="eyebrow" id="detailCategory"></p><h2 id="detailName"></h2></div><button class="close" data-close="recipeDetailModal">×</button></div><div id="recipeDetail"></div></div></div>
+
+<div class="modal-bg" id="exerciseDetailModal"><div class="modal exercise-detail-modal"><div class="modal-head"><div><p class="eyebrow" id="exerciseDetailMuscle"></p><h2 id="exerciseDetailName"></h2></div><button class="close" data-close="exerciseDetailModal">×</button></div><div id="exerciseDetail"></div></div></div>
+
+<div class="modal-bg" id="workoutModal"><div class="modal workout-modal"><div class="modal-head"><div><p class="eyebrow" data-t="activeWorkoutCaps">ACTIVE WORKOUT</p><h2 data-t="logYourSets">Log your sets</h2></div><button class="close" data-close="workoutModal">×</button></div><div class="rest-timer"><span data-t="restTimer">Rest timer</span><strong id="timerDisplay">01:30</strong><button class="secondary" id="timerToggle" data-t="startTimer">Start</button></div><form id="workoutForm"><div id="workoutSetRows"></div><label class="workout-notes"><span data-t="notes">Notes</span><textarea name="notes" data-placeholder="notesPlaceholder" placeholder="How did the workout feel?"></textarea></label><button class="primary wide" data-t="finishWorkout">Finish Workout</button></form></div></div>
+
+<div class="modal-bg" id="myMealModal"><div class="modal"><div class="modal-head"><div><p class="eyebrow" data-t="myMealsCaps">MY MEALS</p><h2 data-t="saveWhatCook">Save what you cook</h2><p class="muted" data-t="nutritionEstimate">Nutrition is estimated automatically from cooked-food values per 100 g.</p></div><button class="close" data-close="myMealModal">×</button></div><form id="myMealForm"><div class="form-grid"><label><span data-t="mealName">Meal name</span><input name="name" data-placeholder="mealNamePlaceholder" placeholder="My Sunday Pasta" required></label><label><span data-t="mealType">Meal type</span><select name="category"><option value="Breakfast" data-t="Breakfast">Breakfast</option><option value="Lunch" data-t="Lunch">Lunch</option><option value="Dinner" data-t="Dinner">Dinner</option><option value="Shake" data-t="Shake">Shake</option></select></label><label><span data-t="howManyPortions">How many portions?</span><input name="servings" type="number" min="1" value="1" required></label></div><div class="ingredient-title"><h3 data-t="productsUsed">Products used</h3><button type="button" class="secondary" id="addProduct" data-t="addProduct">+ Product</button></div><datalist id="foodSuggestions"><option value="Pollo"><option value="Pavo"><option value="Carne de res magra"><option value="Salmón"><option value="Atún en agua"><option value="Huevo entero"><option value="Claras de huevo"><option value="Arroz blanco cocido"><option value="Pasta cocida"><option value="Papa cocida"><option value="Avena"><option value="Frijoles negros cocidos"><option value="Yogur griego natural"><option value="Aguacate"><option value="Brócoli"><option value="Aceite de oliva"></datalist><div id="productRows"></div><div id="myMealTotals" class="preview"></div><button class="primary wide" data-t="saveMyMealPlain">Save My Meal</button></form></div></div>
+
+<div class="modal-bg" id="planModal"><div class="modal compact"><div class="modal-head"><h2 data-t="planAMeal">Plan a Meal</h2><button class="close" data-close="planModal">×</button></div><form id="planForm" class="form-grid one"><label><span data-t="day">Day</span><select name="day" id="planDay"></select></label><label><span data-t="meal">Meal</span><select name="meal"><option value="Breakfast" data-t="Breakfast">Breakfast</option><option value="Lunch" data-t="Lunch">Lunch</option><option value="Dinner" data-t="Dinner">Dinner</option><option value="Snack" data-t="Snack">Snack</option></select></label><label><span data-t="recipe">Recipe</span><select name="recipeId" id="planRecipe"></select></label><label><span data-t="servings">Servings</span><input name="servings" type="number" min=".25" step=".25" value="1"></label><button class="primary" data-t="addToPlan">Add to Plan</button></form></div></div>
+
+<div class="modal-bg" id="measurementModal"><div class="modal compact"><div class="modal-head"><h2 data-t="addMeasurement">Add Measurement</h2><button class="close" data-close="measurementModal">×</button></div><form id="measurementForm" class="form-grid one"><label><span data-t="date">Date</span><input name="date" type="date" required></label><label><span id="measurementWeightLabel">Weight (lb)</span><input name="weight" type="number" step=".1" required></label><label><span data-t="bodyFatPercent">Body Fat (%)</span><input name="bodyFat" type="number" step=".1"></label><button class="primary" data-t="saveMeasurement">Save Measurement</button></form></div></div>
+
+<script src="js/data.js?v=6.3.1"></script><script src="js/storage.js?v=6.3.1"></script><script src="js/app.js?v=6.3.1"></script>
+</body></html>
