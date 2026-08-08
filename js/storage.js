@@ -15,7 +15,7 @@ const Store = {
       achievements: {},
       shoppingChecked: [],
       userProfile: { name: '', level: 'Beginner', diet: 'none', equipment: 'gym', targetDate: '' },
-      settings: { language: 'en', units: 'lb', theme: 'light' }
+      settings: { language: 'en', units: 'lb', heightUnits: 'ft', theme: 'light' }
     };
   },
   load() {

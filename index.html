@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FitForge V6.4</title><link rel="stylesheet" href="css/styles.css?v=6.4.0">
+<title>FitForge V6.6</title><link rel="stylesheet" href="css/styles.css?v=6.6.0">
 </head>
 <body>
 <div class="app">
@@ -17,7 +17,7 @@
     <button class="nav" data-view="goals" data-i18n="navGoals">Goals</button>
     <button class="nav" data-view="settings" data-i18n="navSettings">Settings</button>
   </nav>
-  <div class="version">V6.4 · <span data-t="consumerPreview">Consumer Preview</span></div>
+  <div class="version">V6.6 · <span data-t="consumerPreview">Consumer Preview</span></div>
 </aside>
 
 <main>
@@ -77,15 +77,16 @@
 </section>
 
 <section id="goals" class="view">
-<header><div><p class="eyebrow" data-t="personalTargets">PERSONAL TARGETS</p><h1 data-t="goalsTitle">Goals</h1><p class="muted" data-t="goalsSub">Enter your basics and FitForge will estimate a starting calorie and macro target.</p></div></header>
+<header><div><p class="eyebrow" data-t="personalTargets">PERSONAL TARGETS</p><h1 data-t="goalsTitle">Goals</h1><p class="muted" data-t="goalsSub">Enter your basics and FitForge will estimate a starting calorie and macro target.</p></div><button class="secondary change-goals" id="changeGoals" onclick="editGoals()" data-t="changeGoals" hidden>Change goals</button></header>
 <div class="goals-layout">
 <article class="card">
 <form id="goalCalculator" class="form-grid">
 <label><span data-t="sexEstimate">Sex used for estimate</span><select name="sex"><option value="male" data-t="male">Male</option><option value="female" data-t="female">Female</option></select></label>
 <label><span data-t="age">Age</span><input type="number" name="age" min="18" max="100" value="30" required></label>
 <label><span id="goalWeightLabel">Weight (lb)</span><input type="number" name="weight" min="70" step=".1" value="180" required></label>
-<label><span data-t="height">Height</span><input type="number" name="heightFt" min="4" max="7" value="5" required><span class="inline-unit">ft</span></label>
-<label><span data-t="height">Height</span><input type="number" name="heightIn" min="0" max="11" value="10" required><span class="inline-unit">in</span></label>
+<label class="height-ft-field"><span data-t="heightFeet">Height · feet</span><input type="number" name="heightFt" min="4" max="7" value="5" required><span class="inline-unit">ft</span></label>
+<label class="height-in-field"><span data-t="heightInches">Height · inches</span><input type="number" name="heightIn" min="0" max="11" value="10" required><span class="inline-unit">in</span></label>
+<label class="height-cm-field span-2"><span data-t="heightCentimeters">Height</span><input type="number" name="heightCm" min="120" max="230" step=".1" value="177.8"><span class="inline-unit">cm</span></label>
 <label><span data-t="activity">Activity</span><select name="activity"><option value="1.2" data-t="sedentary">Sedentary</option><option value="1.375" data-t="lightActivity">Light · 1–3 days/week</option><option value="1.55" selected data-t="moderateActivity">Moderate · 3–5 days/week</option><option value="1.725" data-t="veryActive">Very active · 6–7 days/week</option></select></label>
 <label><span data-t="goal">Goal</span><select name="goal"><option value="lose" data-t="loseWeight">Lose weight</option><option value="maintain" data-t="maintainWeight">Maintain weight</option><option value="gain" data-t="gainWeight">Gain weight</option></select></label>
 <label><span id="goalTargetWeightLabel">Goal weight (lb)</span><input type="number" name="goalWeight" min="70" step=".1" value="170"></label>
@@ -117,6 +118,13 @@
       </div>
     </div>
     <div class="setting-row">
+      <div><h3 data-i18n="heightUnits">Height format</h3><p class="muted" data-i18n="heightUnitsSub">Choose centimeters or feet and inches.</p></div>
+      <div class="choice-group" id="heightUnitChoice">
+        <button data-value="ft" class="choice active">ft / in</button>
+        <button data-value="cm" class="choice">cm</button>
+      </div>
+    </div>
+    <div class="setting-row">
       <div><h3 data-i18n="appearance">Appearance</h3><p class="muted" data-i18n="appearanceSub">Switch between light and dark mode.</p></div>
       <div class="choice-group" id="themeChoice">
         <button data-value="light" class="choice active" data-i18n="light">Light</button>
@@ -131,6 +139,7 @@
     <div class="preview-list">
       <div><span data-i18n="language">Language</span><strong id="previewLanguage">English</strong></div>
       <div><span data-i18n="units">Units</span><strong id="previewUnits">lb</strong></div>
+      <div><span data-i18n="heightUnits">Height format</span><strong id="previewHeightUnits">ft / in</strong></div>
       <div><span data-i18n="appearance">Appearance</span><strong id="previewTheme">Light</strong></div>
     </div>
   </article>
@@ -141,6 +150,7 @@
 </div>
 
 <!-- Food Modal -->
+<div class="modal-bg onboarding-bg" id="onboardingModal"><div class="modal compact onboarding-modal"><div class="onboarding-mark">FF</div><p class="eyebrow" data-t="welcomeFitForge">WELCOME TO FITFORGE</p><h2 data-t="defineGoalsFirst">First, define your goals</h2><p class="muted" data-t="defineGoalsIntro">We need a few basic details to calculate your daily calories, macros and water goal.</p><div class="onboarding-benefits"><div><span>01</span><p><strong data-t="calorieTarget">Calorie target</strong><small data-t="basedOnYou">Based on your body and activity</small></p></div><div><span>02</span><p><strong data-t="macroTargets">Macro targets</strong><small data-t="proteinCarbsFat">Protein, carbohydrates and fats</small></p></div><div><span>03</span><p><strong data-t="hydrationTarget">Hydration target</strong><small data-t="adjustableAnytime">Adjustable whenever you need</small></p></div></div><button class="primary wide onboarding-start" onclick="startGoalSetup()" data-t="defineMyGoals">Define my goals</button></div></div>
 <div class="modal-bg" id="foodModal"><div class="modal">
 <div class="modal-head"><div><p class="eyebrow" data-t="todayCaps">TODAY</p><h2 data-t="logFoodTitle">Log Food</h2></div><button class="close" data-close="foodModal">×</button></div>
 <div class="segmented small-seg"><button class="active" data-logtab="recipe" data-t="savedRecipe">Saved Recipe</button><button data-logtab="food" data-t="individualFood">Individual Food</button></div>
@@ -164,5 +174,5 @@
 
 <div class="modal-bg" id="measurementModal"><div class="modal compact"><div class="modal-head"><h2 data-t="addMeasurement">Add Measurement</h2><button class="close" data-close="measurementModal">×</button></div><form id="measurementForm" class="form-grid one"><label><span data-t="date">Date</span><input name="date" type="date" required></label><label><span id="measurementWeightLabel">Weight (lb)</span><input name="weight" type="number" step=".1" required></label><label><span data-t="bodyFatPercent">Body Fat (%)</span><input name="bodyFat" type="number" step=".1"></label><button class="primary" data-t="saveMeasurement">Save Measurement</button></form></div></div>
 
-<script src="js/data.js?v=6.4.0"></script><script src="js/storage.js?v=6.4.0"></script><script src="js/app.js?v=6.4.0"></script>
+<script src="js/data.js?v=6.6.0"></script><script src="js/storage.js?v=6.6.0"></script><script src="js/app.js?v=6.6.0"></script>
 </body></html>
