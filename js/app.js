@@ -185,6 +185,7 @@ function applySettings(){
  $$('#languageChoice .choice').forEach(b=>b.classList.toggle('active',b.dataset.value===state.settings.language));
  $$('#unitChoice .choice').forEach(b=>b.classList.toggle('active',b.dataset.value===state.settings.units));
  $$('#heightUnitChoice .choice').forEach(b=>b.classList.toggle('active',b.dataset.value===(state.settings.heightUnits||'ft')));
+ $$('#goalHeightUnitChoice .choice').forEach(b=>b.classList.toggle('active',b.dataset.value===(state.settings.heightUnits||'ft')));
  $$('#themeChoice .choice').forEach(b=>b.classList.toggle('active',b.dataset.value===state.settings.theme));
  if($('#previewLanguage'))$('#previewLanguage').textContent=state.settings.language==='es'?'Español':'English';
  if($('#previewUnits'))$('#previewUnits').textContent=state.settings.units;
@@ -224,6 +225,7 @@ function toLb(v){return state.settings.units==='kg'?+v/0.453592:+v}
    save();
  });
 });
+$$('#goalHeightUnitChoice .choice').forEach(b=>b.onclick=()=>{const settingButton=$(`#heightUnitChoice .choice[data-value="${b.dataset.value}"]`);if(settingButton)settingButton.click()});
 
 function syncGoalFormUnits(){
  const u=state.settings.units,w=$('#goalCalculator [name=weight]'),gw=$('#goalCalculator [name=goalWeight]');

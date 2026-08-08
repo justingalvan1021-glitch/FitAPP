@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FitForge V6.6</title><link rel="stylesheet" href="css/styles.css?v=6.6.0">
+<title>FitForge V6.6</title><link rel="stylesheet" href="css/styles.css?v=6.6.2">
 </head>
 <body>
 <div class="app">
@@ -84,6 +84,7 @@
 <label><span data-t="sexEstimate">Sex used for estimate</span><select name="sex"><option value="male" data-t="male">Male</option><option value="female" data-t="female">Female</option></select></label>
 <label><span data-t="age">Age</span><input type="number" name="age" min="18" max="100" value="30" required></label>
 <label><span id="goalWeightLabel">Weight (lb)</span><input type="number" name="weight" min="70" step=".1" value="180" required></label>
+<div class="height-format-field span-2"><span data-t="heightUnits">Height format</span><div class="choice-group" id="goalHeightUnitChoice"><button type="button" data-value="cm" class="choice">cm</button><button type="button" data-value="ft" class="choice active">ft / in</button></div></div>
 <label class="height-ft-field"><span data-t="heightFeet">Height · feet</span><input type="number" name="heightFt" min="4" max="7" value="5" required><span class="inline-unit">ft</span></label>
 <label class="height-in-field"><span data-t="heightInches">Height · inches</span><input type="number" name="heightIn" min="0" max="11" value="10" required><span class="inline-unit">in</span></label>
 <label class="height-cm-field span-2"><span data-t="heightCentimeters">Height</span><input type="number" name="heightCm" min="120" max="230" step=".1" value="177.8"><span class="inline-unit">cm</span></label>
@@ -174,5 +175,5 @@
 
 <div class="modal-bg" id="measurementModal"><div class="modal compact"><div class="modal-head"><h2 data-t="addMeasurement">Add Measurement</h2><button class="close" data-close="measurementModal">×</button></div><form id="measurementForm" class="form-grid one"><label><span data-t="date">Date</span><input name="date" type="date" required></label><label><span id="measurementWeightLabel">Weight (lb)</span><input name="weight" type="number" step=".1" required></label><label><span data-t="bodyFatPercent">Body Fat (%)</span><input name="bodyFat" type="number" step=".1"></label><button class="primary" data-t="saveMeasurement">Save Measurement</button></form></div></div>
 
-<script src="js/data.js?v=6.6.0"></script><script src="js/storage.js?v=6.6.0"></script><script src="js/app.js?v=6.6.0"></script>
+<script src="js/data.js?v=6.6.2"></script><script src="js/storage.js?v=6.6.2"></script><script src="js/app.js?v=6.6.2"></script>
 </body></html>
