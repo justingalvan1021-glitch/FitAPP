@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FitForge V6.6</title><link rel="stylesheet" href="css/styles.css?v=6.6.2">
+<title>FitForge V6.7</title><link rel="stylesheet" href="css/styles.css?v=6.7.0">
 </head>
 <body>
 <div class="app">
@@ -17,7 +17,7 @@
     <button class="nav" data-view="goals" data-i18n="navGoals">Goals</button>
     <button class="nav" data-view="settings" data-i18n="navSettings">Settings</button>
   </nav>
-  <div class="version">V6.6 · <span data-t="consumerPreview">Consumer Preview</span></div>
+  <div class="version">V6.7 · <span data-t="consumerPreview">Consumer Preview</span></div>
 </aside>
 
 <main>
@@ -161,7 +161,7 @@
 
 <div class="modal-bg" id="waterModal"><div class="modal compact"><div class="modal-head"><div><p class="eyebrow" data-t="hydration">HYDRATION</p><h2 data-t="waterSettings">Water and daily goal</h2></div><button class="close" data-close="waterModal">×</button></div><form id="waterForm" class="water-form"><label><span data-t="amountOz">Amount to add (oz)</span><input name="amount" type="number" min="0" value="12" required></label><label><span data-t="dailyGoalOz">Daily goal (oz)</span><input name="goal" type="number" min="1" value="80" required></label><p class="fineprint" data-t="waterGoalHint">You can change your goal without adding water by entering 0 above.</p><button class="primary wide" data-t="saveWater">Save hydration</button></form></div></div>
 
-<div class="modal-bg" id="scanModal"><div class="modal compact"><div class="modal-head"><div><p class="eyebrow" data-t="aiFoodScan">AI FOOD SCAN</p><h2><span data-i18n="scanMeal">Scan Meal</span></h2></div><button class="close" data-close="scanModal">×</button></div><input id="mealPhoto" type="file" accept="image/*" capture="environment"><div id="scanPreview" class="scan-preview" data-t="takePhoto">Take or choose a photo</div><button class="primary wide" id="analyzeMeal" data-t="analyzeMeal">Analyze Meal</button><p id="scanStatus" class="muted center"></p></div></div>
+<div class="modal-bg" id="scanModal"><div class="modal nutrition-scan-modal"><div class="modal-head"><div><p class="eyebrow" data-t="nutritionScanner">NUTRITION SCANNER</p><h2 data-t="scanNutritionFacts">Scan Nutrition Facts</h2><p class="muted" data-t="scanNutritionSub">Take a clear photo and review the numbers before saving.</p></div><button class="close" data-close="scanModal">×</button></div><div class="scanner-layout"><section><label class="photo-picker" for="mealPhoto"><span>▣</span><strong data-t="takeNutritionPhoto">Take or choose a label photo</strong><small data-t="photoTips">Keep the label straight, bright and fully visible.</small></label><input id="mealPhoto" type="file" accept="image/*" capture="environment"><div id="scanPreview" class="scan-preview" data-t="noPhotoSelected">No photo selected</div><button class="primary wide" id="analyzeMeal" data-t="readLabel">Read label</button><div class="scan-progress" id="scanProgress" hidden><span></span></div><p id="scanStatus" class="muted center"></p></section><form id="nutritionReviewForm" class="nutrition-review" hidden><div class="review-heading"><p class="eyebrow" data-t="reviewResults">REVIEW RESULTS</p><span data-t="verifyBeforeSaving">Verify the label values before saving.</span></div><div class="form-grid"><label class="span-2"><span data-t="foodName">Food name</span><input name="name" required></label><label><span data-t="servingSizeGrams">Serving size (g)</span><input name="servingGrams" type="number" min="1" step=".1" required></label><label><span data-t="servingsPerContainer">Servings per container</span><input name="servings" type="number" min=".1" step=".1" value="1"></label><label><span data-t="caloriesPerServing">Calories per serving</span><input name="calories" type="number" min="0" required></label><label><span data-t="proteinGrams">Protein (g)</span><input name="protein" type="number" min="0" step=".1" required></label><label><span data-t="carbsGrams">Carbs (g)</span><input name="carbs" type="number" min="0" step=".1" required></label><label><span data-t="fatGrams">Fat (g)</span><input name="fat" type="number" min="0" step=".1" required></label></div><div class="scan-macro-preview" id="scanMacroPreview"></div><button class="primary wide" data-t="saveToMyFoods">Save to My Foods</button></form></div></div></div>
 
 <div class="modal-bg" id="recipeDetailModal"><div class="modal recipe-detail-modal"><div class="modal-head"><div><p class="eyebrow" id="detailCategory"></p><h2 id="detailName"></h2></div><button class="close" data-close="recipeDetailModal">×</button></div><div id="recipeDetail"></div></div></div>
 
@@ -175,5 +175,5 @@
 
 <div class="modal-bg" id="measurementModal"><div class="modal compact"><div class="modal-head"><h2 data-t="addMeasurement">Add Measurement</h2><button class="close" data-close="measurementModal">×</button></div><form id="measurementForm" class="form-grid one"><label><span data-t="date">Date</span><input name="date" type="date" required></label><label><span id="measurementWeightLabel">Weight (lb)</span><input name="weight" type="number" step=".1" required></label><label><span data-t="bodyFatPercent">Body Fat (%)</span><input name="bodyFat" type="number" step=".1"></label><button class="primary" data-t="saveMeasurement">Save Measurement</button></form></div></div>
 
-<script src="js/data.js?v=6.6.2"></script><script src="js/storage.js?v=6.6.2"></script><script src="js/app.js?v=6.6.2"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@7/dist/tesseract.min.js"></script><script src="js/data.js?v=6.7.0"></script><script src="js/storage.js?v=6.7.0"></script><script src="js/app.js?v=6.7.0"></script>
 </body></html>
